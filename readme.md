@@ -8,6 +8,7 @@ Add a to_hash method to any class that will produce a hash from all instance var
 By default the keys produced are symbols but when called with parameters it will use the parameter form passed for the keys (which can be mixed symbols and strings).
 In order to make an alternate default of to_hash with a specific set of attributes one may consider implementing to_hash can calling a super method to pass the params i.e.
 
+```
   class Foo
     include ToHash
   
@@ -26,6 +27,7 @@ In order to make an alternate default of to_hash with a specific set of attribut
     :foo => 1,
     'bar' => 2
   }
+```
 
 ## ComparableByAttr
 
@@ -34,6 +36,7 @@ Adds a default behaviour for <=> based upon instance variables within the class 
 Instance variables by default are enumerated, sorted and stored in an array and the arrays are compared with their own l to r behaviour.
 One may override the instance variables used in the comparison and the order by specifying an attr_compare override in the class definition.
 
+```
   # instances will be comparable by [@a, @b, @c]
   class Bar
     include ComparableByAttr
@@ -56,6 +59,7 @@ One may override the instance variables used in the comparison and the order by 
       @c = c
     end
   end
+```
 
 ## dig
 
@@ -69,6 +73,7 @@ Documentation from Ruby 2.3.0 states..
 
 Extracts the nested value specified by the sequence of idx objects by calling dig at each step, returning nil if any intermediate step is nil.
 
+```
     h = { foo: {bar: {baz: 1}}}
 
     h.dig(:foo, :bar, :baz)           #=> 1
@@ -76,3 +81,4 @@ Extracts the nested value specified by the sequence of idx objects by calling di
 
     g = { foo: [10, 11, 12] }
     g.dig(:foo, 1)                    #=> 11
+```
