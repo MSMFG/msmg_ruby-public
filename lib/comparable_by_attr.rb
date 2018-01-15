@@ -7,8 +7,8 @@ module ComparableByAttr
     klass.class_eval do
       @__attr_precedence = nil
 
-      # attr_compare allows selection of specific instance variables and order to use
-      # within the comparison of objects created off the class
+      # attr_compare allows selection of specific instance variables and order
+      # to use within the comparison of objects created off the class
       #
       # Example:
       #   class IgnoreC
