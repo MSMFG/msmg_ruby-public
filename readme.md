@@ -82,3 +82,61 @@ Extracts the nested value specified by the sequence of idx objects by calling di
     g = { foo: [10, 11, 12] }
     g.dig(:foo, 1)                    #=> 11
 ```
+
+## BuilderPattern
+Implements a builder pattern to produce an object with a set of instance variables set.
+Allows definition of mandatory and optional attributes that are enforced during build step for the object.
+
+```
+  class Foo
+    include BuilderPattern
+    attr_mandatory :a
+    attr_mandatory :b, :c
+    attr_optional :d
+
+    def run
+      puts "I'm running fine #{@a} #{@b} #{@c} #{@d}"
+    end
+  end
+
+  a = Foo.build do |o|
+    o.a = 1
+    o.b = 2
+    o.c = 3
+  end
+  a.run
+
+=> I'm running fine 1 2 3
+
+  a = Foo.build do |o|
+    o.a = 1
+    o.b = 2
+  end
+  a.run
+
+=> `build': Mandatory fields @c not set (ArgumentError)
+	from /Users/andrew.smith/Ruby/fooexample.rb:14:in `build'
+	from /Users/andrew.smith/Ruby/fooexample.rb:43:in `<main>'
+
+  a = Foo.build do |o|
+    o.a = 1
+    o.b = 2
+    o.c = 3
+    o.d = 'Hello'
+  end
+  a.run
+
+=> I'm running fine 1 2 3 Hello
+
+  a = Foo.build do |o|
+    o.a = 1
+    o.b = 2
+    o.c = 3
+    o.d = 'Hello'
+    o.f = 'foo'
+  end
+  a.run
+
+=> `block in build': Unknown field @f used in build (ArgumentError)
+
+```
