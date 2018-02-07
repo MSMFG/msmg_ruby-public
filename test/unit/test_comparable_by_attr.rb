@@ -58,6 +58,6 @@ class TestComparableByAttr < Minitest::Test
   end
 
   def test_a_eq_b_ignorec
-    assert(IgnoreC.new(1, 1, 2) == IgnoreC.new(1, 1, 2))
+    assert(IgnoreC.new(1, 1, 2) == IgnoreC.new(1, 1, 3))
   end
 end
