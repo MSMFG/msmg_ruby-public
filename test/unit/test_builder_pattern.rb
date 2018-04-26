@@ -7,6 +7,11 @@ class TestBuilder
   attr_mandatory :b, :c
   attr_optional :d
 
+  def initialize
+    super
+    @d = nil
+  end
+
   def sum
     d = @d || 0
     @a + @b + @c + d
