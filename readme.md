@@ -140,3 +140,36 @@ Allows definition of mandatory and optional attributes that are enforced during 
 => `block in build': Unknown field @f used in build (ArgumentError)
 
 ```
+
+## WithRetries
+
+A general retries mixin and exception wrapper class.
+
+```
+class Foo
+  include WithRetries
+  FETCH_TRIES = 5
+
+  def run
+    with_retries(FETCH_TRIES, operation: 'Fetching values') do
+      begin
+        fetchvals
+      rescue SomeErrorThatICanRetryOn, SocketError => ex
+        raise WrappableError, ex
+      end
+    end
+  end
+
+  private
+
+  def fetchvals
+    ...
+  end
+end
+```
+
+with_retries implements an automatic retry around a block of code retrying if a nil or false value ends the block.
+
+It also handles WrappableError exceptions which allow exceptions that can be cared for within the retry to be inhibited until all tries have been performed.
+
+The operation parameter allows some tuning of log messages produced by the mixin and the log_method parameter can be used to change the method used to produce log messages during the retries.
