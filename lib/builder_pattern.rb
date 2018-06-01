@@ -5,6 +5,8 @@ module BuilderPattern
   # rubocop:disable Metrics/MethodLength because of class_eval
   def self.included(klass)
     klass.class_eval do
+      private_class_method :new
+
       @__attr_mandatory = []
       @__attr_optional = []
 
