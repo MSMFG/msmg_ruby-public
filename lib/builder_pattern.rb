@@ -7,14 +7,13 @@ module BuilderPattern
     klass.class_eval do
       private_class_method :new
 
-      @__attr_mandatory = []
-      @__attr_optional = []
-
       def self.attr_mandatory(*fields)
+        @__attr_mandatory ||= []
         @__attr_mandatory |= fields.map { |field| "@#{field}".to_sym }
       end
 
       def self.attr_optional(*fields)
+        @__attr_optional ||= []
         @__attr_optional |= fields.map { |field| "@#{field}".to_sym }
       end
 
@@ -30,8 +29,14 @@ module BuilderPattern
   def build
     collector = OpenStruct.new
     yield collector
-    mandatory = self.class.instance_variable_get(:@__attr_mandatory)
-    allowed = self.class.instance_variable_get(:@__attr_optional) | mandatory
+    mandatory = self.class.ancestors.map do |level|
+      level.instance_variable_get(:@__attr_mandatory)
+    end
+                    .compact.flatten.uniq
+    allowed = self.class.ancestors.map do |level|
+      level.instance_variable_get(:@__attr_optional)
+    end
+                  .compact.flatten | mandatory
     # Migrate the state to instance variables
     collector.each_pair do |key, val|
       key = "@#{key}".to_sym
