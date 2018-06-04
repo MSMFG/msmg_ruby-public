@@ -9,7 +9,7 @@ $LOAD_PATH.merge! [File.expand_path('lib', __dir__)]
 Gem::Specification.new do |spec|
   raise 'RubyGems 2.0 or newer is required.' unless spec.respond_to?(:metadata)
   spec.name = 'msmg_public'
-  spec.version = '0.3.2'
+  spec.version = '0.3.3'
   spec.authors = ['Andrew Smith']
   spec.email = ['andrew.smith at moneysupermarket.com']
 
